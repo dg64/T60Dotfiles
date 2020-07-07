@@ -1,0 +1,54 @@
+20m0(Build:2)
+Bad Zip File, IOException: Could not parse manifest.xml
+
+Rethrow
+
+Rethrow
+
+Rethrow
+
+Rethrow
+Element does not exist and cannot be created: "current.xml"
+Rethrow
+Element does not exist and cannot be created: "sc_imagelist.xml"
+Rethrow
+
+Rethrow
+
+Rethrow
+
+Rethrow
+
+Rethrow
+
+Rethrow
+
+Rethrow
+
+Rethrow
+
+Rethrow
+
+Rethrow
+
+Rethrow
+
+Rethrow
+
+Rethrow
+Element does not exist and cannot be created: "documentsignatures.xml"
+Rethrow
+
+Rethrow
+
+No Encryption
+
+Rethrow
+Element does not exist and cannot be created: "default.xml"
+Rethrow
+Element does not exist and cannot be created: "sc_imagelist.xml"
+Rethrow
+/build/libreoffice-VeLTDR/libreoffice-5.2.7/sfx2/source/doc/sfxbasemodel.cxx:1628: storeAsURL
+/build/libreoffice-VeLTDR/libreoffice-5.2.7/sfx2/source/doc/objstor.cxx:2632: 
+/build/libreoffice-VeLTDR/libreoffice-5.2.7/sfx2/source/doc/objmisc.cxx:250: Resetting Error.
+/build/libreoffice-VeLTDR/libreoffice-5.2.7/sfx2/source/doc/sfxbasemodel.cxx:3099: Storing failed!

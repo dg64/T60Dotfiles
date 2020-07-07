@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openbox_menu xmlns="http://openbox.org/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://openbox.org/                 file:///usr/share/openbox/menu.xsd">
+	<menu id="root-menu" label="Openbox 3">
+		<item icon="/usr/share/icons/gnome/24x24/apps/utilities-terminal.png" label="Terminal emulator">
+			<action name="Execute">
+				<execute>lxterminal</execute>
+			</action>
+		</item>
+		<item icon="/usr/share/icons/Vibrancy-Colors/apps/24/firefox-4.0.png" label="Web browser">
+			<action name="Execute">
+				<execute>x-www-browser</execute>
+			</action>
+		</item>
+		<item icon="/usr/share/icons/Vibrancy-Colors/apps/24/leafpad.png" label="Editor">
+			<action name="Execute">
+				<execute>leafpad</execute>
+			</action>
+		</item>
+		<!-- This requires the presence of the 'menu' package to work -->
+		<item icon="/usr/share/icons/Vibrancy-Colors/apps/24/evince.png" label="PDF reader">
+			<action name="Execute">
+				<execute>evince</execute>
+			</action>
+		</item>
+		<item icon="/usr/share/icons/gnome/24x24/apps/file-manager.png" label="File Manager">
+			<action name="Execute">
+				<execute>pcmanfm</execute>
+			</action>
+		</item>
+		<item icon="/usr/share/icons/Vibrancy-Colors/apps/24/keepass2.png" label="Keepass">
+			<action name="Execute">
+				<execute>keepassx</execute>
+			</action>
+		</item>
+		<item label="Dir Menu">
+			<action name="Execute">
+				<execute>/home/dg/.config/openbox/scripts/dirsmenu.pl</execute>
+			</action>
+		</item>
+		<menu id="root-menu-814950" label="Office">
+			<item icon="/usr/share/icons/Vibrancy-Colors/apps/24/libreoffice.png" label="LibreOffice">
+				<action name="Execute">
+					<execute>libreoffice</execute>
+				</action>
+			</item>
+			<item icon="/usr/share/icons/Vibrancy-Colors/apps/24/libreoffice-calc.png" label="Calc">
+				<action name="Execute">
+					<execute>localc</execute>
+				</action>
+			</item>
+			<item icon="/usr/share/icons/Vibrancy-Colors/apps/24/libreoffice-writer.png" label="Writer">
+				<action name="Execute">
+					<execute>lowriter</execute>
+				</action>
+			</item>
+			<item icon="/usr/share/icons/Vibrancy-Colors/apps/24/libreoffice-base.png" label="Base">
+				<action name="Execute">
+					<execute>lobase</execute>
+				</action>
+			</item>
+			<item icon="/usr/share/icons/Vibrancy-Colors/apps/24/libreoffice-impress.png" label="Impress">
+				<action name="Execute">
+					<execute>loimpress</execute>
+				</action>
+			</item>
+			<item icon="/usr/share/icons/Vibrancy-Colors/apps/24/libreoffice-draw.png" label="Draw">
+				<action name="Execute">
+					<execute>lodraw</execute>
+				</action>
+			</item>
+		</menu>
+		<menu id="root-menu-965033" label="Media">
+			<item icon="/usr/share/icons/Vibrancy-Colors/apps/24/mirage.png" label="Image Viewer">
+				<action name="Execute">
+					<execute>mirage</execute>
+				</action>
+			</item>
+			<item icon="/usr/share/icons/gnome/24x24/devices/scanner.png" label="Scanner">
+				<action name="Execute">
+					<execute>xsane</execute>
+				</action>
+			</item>
+			<item icon="/usr/share/icons/Vibrancy-Colors/apps/24/vlc.png" label="Vlc">
+				<action name="Execute">
+					<execute>vlc</execute>
+				</action>
+			</item>
+			<item icon="/usr/share/icons/Vibrancy-Colors/apps/24/skype.png" label="Skype">
+				<action name="Execute">
+					<execute>skypeforlinux</execute>
+				</action>
+			</item>
+		</menu>
+		<menu id="root-menu-844939" label="Graphic">
+			<item icon="/usr/share/icons/Vibrancy-Colors/apps/24/inkscape.png" label="Inkscape">
+				<action name="Execute">
+					<execute>inkscape</execute>
+				</action>
+			</item>
+			<item icon="/usr/share/icons/Vibrancy-Colors/apps/24/gimp.png" label="Gimp">
+				<action name="Execute">
+					<execute>gimp</execute>
+				</action>
+			</item>
+		</menu>
+		<menu id="root-menu-872443" label="Programming">
+			<item icon="/usr/share/icons/Vibrancy-Colors/apps/24/Terminal.png" label="urxvt">
+				<action name="Execute">
+					<execute>urxvt</execute>
+				</action>
+			</item>
+			<item icon="/usr/share/icons/Vibrancy-Colors/apps/24/eclipse.png" label="Eclipse">
+				<action name="Execute">
+					<execute>eclipse</execute>
+				</action>
+			</item>
+			<item icon="/usr/share/icons/Vibrancy-Colors/apps/24/kate.png" label="Kate">
+				<action name="Execute">
+					<execute>kate</execute>
+				</action>
+			</item>
+			<item icon="/usr/share/icons/Vibrancy-Colors/apps/24/geany.png" label="Geany">
+				<action name="Execute">
+					<execute>geany</execute>
+				</action>
+			</item>
+			<item icon="/usr/share/icons/Vibrancy-Colors/apps/24/sqldeveloper.png" label="SQLite Studio">
+				<action name="Execute">
+					<execute>/opt/SQLiteStudio/sqlitestudio</execute>
+				</action>
+			</item>
+			<item icon="/usr/share/icons/Vibrancy-Colors/apps/24/hexchat.png" label="Bless Hex Editor">
+				<action name="Execute">
+					<execute>bless</execute>
+				</action>
+			</item>
+			<item icon="/usr/share/icons/Vibrancy-Colors/apps/24/ghex.png" label="GHex">
+				<action name="Execute">
+					<execute>ghex</execute>
+				</action>
+			</item>
+			<item label="SQLWorkbench">
+				<action name="Execute">
+					<execute>/opt/SQLWorkbench/sqlworkbench.sh</execute>
+				</action>
+			</item>
+			<item icon="/usr/share/icons/Vibrancy-Colors/apps/24/postgresql.png" label="PgAdmin">
+				<action name="Execute">
+					<execute>pgadmin3</execute>
+				</action>
+			</item>
+		</menu>
+		<menu id="root-menu-294512" label="Terminal applications">
+			<item label="radio">
+				<action name="Execute">
+					<execute>curseradio</execute>
+				</action>
+			</item>
+			<item label="Spectrum analyzer">
+				<action name="Execute">
+					<execute>lxterminal cava</execute>
+				</action>
+			</item>
+		</menu>
+		<menu id="/Debian"/>
+		<separator/>
+		<menu id="client-list-menu"/>
+		<menu execute="/home/dg/.config/openbox/scripts/dirlist.pl" id="pipe-144540" label="File browser"/>
+		<menu execute="/home/dg/.config/openbox/scripts/battery.sh" id="pipe-254259" label="Battery"/>
+		<menu execute="/home/dg/.config/openbox/scripts/ob-sysinfo.pl" id="pipe-273927" label="Sysinfo"/>
+		<separator/>
+		<menu id="root-menu-95244" label="Settings">
+			<item icon="/usr/share/icons/Vibrancy-Colors/apps/24/obconf.png" label="ObConf">
+				<action name="Execute">
+					<execute>obconf</execute>
+				</action>
+			</item>
+			<item icon="/usr/share/icons/Vibrancy-Colors/apps/24/obconf.png" label="ObMenu">
+				<action name="Execute">
+					<execute>obmenu</execute>
+				</action>
+			</item>
+			<item icon="/usr/share/icons/Vibrancy-Colors/apps/24/preferences-theme.png" label="lxAppearance">
+				<action name="Execute">
+					<execute>lxappearance</execute>
+				</action>
+			</item>
+			<item icon="/usr/share/icons/Vibrancy-Colors/apps/24/sound.png" label="pavucontrol">
+				<action name="Execute">
+					<execute>pavucontrol</execute>
+				</action>
+			</item>
+			<item icon="/usr/share/icons/Vibrancy-Colors/apps/24/cheese.png" label="cheese">
+				<action name="Execute">
+					<execute>cheese</execute>
+				</action>
+			</item>
+			<item icon="/usr/share/icons/Vibrancy-Colors/apps/24/wallpaper.png" label="Nitrogen">
+				<action name="Execute">
+					<execute>nitrogen</execute>
+				</action>
+			</item>
+			<item icon="/usr/share/icons/Vibrancy-Colors/apps/24/tint2conf.png" label="tint2">
+				<action name="Execute">
+					<execute>tint2conf</execute>
+				</action>
+			</item>
+			<item icon="/usr/share/icons/Vibrancy-Colors/apps/24/fonts.png" label="Font Manager">
+				<action name="Execute">
+					<execute>font-manager</execute>
+				</action>
+			</item>
+			<item label="Printer Cartridge Status">
+				<action name="Execute">
+					<execute>mtink</execute>
+				</action>
+			</item>
+		</menu>
+		<item icon="/usr/share/icons/Vibrancy-Colors/apps/24/obconf.png" label="ObConf">
+			<action name="Execute">
+				<execute>obconf</execute>
+			</action>
+		</item>
+		<item label="Reconfigure">
+			<action name="Reconfigure"/>
+		</item>
+		<item label="Restart">
+			<action name="Restart"/>
+		</item>
+		<separator/>
+		<item label="Exit">
+			<action name="Exit"/>
+		</item>
+	</menu>
+</openbox_menu>

@@ -1,0 +1,22 @@
+set imap_user	=	dgalizia@rambler.ru
+set imap_pass	=	lasciateognisperanza
+
+#set smtp_user	=	dgalizia@rambler.ru
+set smtp_pass	=	lasciateognisperanza
+set smtp_url	=	smtps://dgalizia@rambler.ru@smtp.rambler.ru:465
+set from		=	"Domenico Galizia <dgalizia@rambler.ru>"
+
+set folder		=	imaps://imap.rambler.ru:993
+set spoolfile	=	+INBOX
+
+set imap_check_subscribed
+
+mailboxes +INBOX +Trash +Spam +Ancor +HH +LinkedIn
+
+set imap_list_subscribed = yes
+
+#unset ssl_starttls
+#set ssl_force_tls=no
+
+#source ~/.config/neomutt/sidebarrc
+#bind index,pager B sidebar-toggle-visible

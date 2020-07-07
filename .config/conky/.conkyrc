@@ -1,0 +1,329 @@
+conky.config = {
+  -- Conky, a system monitor, based on torsmo
+  --
+  -- Any original torsmo code is licensed under the BSD license
+  --
+  -- All code written since the fork of torsmo is licensed under the GPL
+  --
+  -- Please see COPYING for details
+  --
+  -- Copyright (c) 2004, Hannu Saransaari and Lauri Hakkarainen
+  -- Copyright (c) 2005-2010 Brenden Matthews, Philip Kovacs, et. al. (see AUTHORS)
+  -- All rights reserved.
+  --
+  -- This program is free software: you can redistribute it and/or modify
+  -- it under the terms of the GNU General Public License as published by
+  -- the Free Software Foundation, either version 3 of the License, or
+  -- (at your option) any later version.
+  --
+  -- This program is distributed in the hope that it will be useful,
+  -- but WITHOUT ANY WARRANTY; without even the implied warranty of
+  -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  -- GNU General Public License for more details.
+  -- You should have received a copy of the GNU General Public License
+  -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  --
+  -- _____________________________________
+  -- HISTORY:
+  --
+  --   10/25/16 - mattz - V1.0 original (for release)
+  --   12/01/16 - mattz - V1.1 added stockticker, misc improvements
+  --   01/18/17 - mattz - V2.1 added 'analog' gauges
+  --   07/22/17 - mattz - V2.2 added alarms for gauges
+  --
+  -- _____________________________________
+  -- NOTES:
+  --   this layout requires sensors & xdotool
+  --
+  --   colors chart...
+  --     http://www.graphviz.org/doc/info/colors.html
+  --    or...
+  --     cat /usr/share/X11/rgb.txt
+  --
+  --   Gauges:
+  --    syntax: label(no.spaces) unit measure(or conky_parse) max(value) warn(value) xr(rowpos) yc(columnpos)
+  --      unit is such as °F or % ... if none is desired (leave blank), enter 'nil' (no quotes)
+  --      if no warn indication is desired, make value of warn parameter equal value of max
+  --    because lua uses cr and conky does not, we need to put a ${voffset ##} after gauge line to align next item properly
+  -- _____________________________________
+
+  -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  alignment = 'top_right',
+  background = true,   -- set to yes if you want Conky to be forked in the background
+  border_width = 1,
+  -- --- change colors as needed ---
+  color1 = 'skyblue4',      -- text/data
+  color2 = 'dodgerblue3',   -- labels
+  color3 = 'deepskyblue2',  -- highlights
+  color4 = 'gray10',        -- bar charts
+  color5 = 'gray17',        -- graph borders
+  color6 = 'yellow1',       -- warning (hi cpu temp)
+  color7 = 'green3',        -- stock ticker "up"
+  color8 = 'red3',          -- stock ticker "down"
+  -- -------------------------------
+  cpu_avg_samples = 1,
+  default_color = 'white',
+  default_gauge_width = 25,
+  default_gauge_height = 25,
+  default_graph_width = 0,
+  default_graph_height = 25,
+  default_outline_color = 'white',
+  default_shade_color = 'white',
+  double_buffer = true,
+  draw_borders = false,
+  draw_graph_borders = true,
+  draw_outline = false,
+  draw_shades = false,
+  extra_newline = false,
+  font = 'Monospace:size=7',
+  gap_x = 5,
+  gap_y = 5,
+  maximum_width = 220,
+  minimum_width = 220,
+  net_avg_samples = 1,
+  no_buffers = true,
+  out_to_console = false,
+  out_to_stderr = false,
+  own_window = true,
+  own_window_class = 'Conky',
+  own_window_colour = '#000000',
+  own_window_argb_visual = true,
+  own_window_argb_value = 40,
+  own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+  own_window_transparent = false,   -- should be set to no
+  own_window_type = 'normal',       -- if enabled, does not move according to taskbar height
+  out_to_console = false,
+  -- pad_percents = 2,              -- use_spacer must be enabled (not using, throws off other numbers)
+  short_units = true,
+  show_graph_scale = false,
+  show_graph_range = false,
+  stippled_borders = 0,
+  temperature_unit = 'fahrenheit',
+  update_interval = 1.0,
+  uppercase = false,
+  use_spacer = 'none',              -- right, left , none
+  use_xft = true,
+
+  -- --- required for interactive buttons lua ---
+  own_window_title = 'click_conky',
+
+  -- --- Lua Load all ---
+  lua_load = '~/Scripts/lua/conky_lua.lua',
+  lua_draw_hook_pre = 'conky_main',
+  -- --------------------
+
+};
+
+conky.text = [[
+# ---------------------------
+# ----- SYSINFO -------------
+# ---------------------------
+${color2}Distro: ${color1}${execi 3600 lsb_release -d -s} - ${execi 3600 lsb_release -c -s}
+${color2}Kernel: ${color1}${kernel}  ${alignr}${color2}Name: ${color1}${nodename}
+# ---------------------------
+# ----- CALENDAR ------------
+# ---------------------------
+${color3}${hr}
+#   ${color1}${execi 3600 cal -h}
+#   ${color1}${execpi 3600 DJS=`date +%_d`; cal -h | sed s/"$DJS"'\b'/'${color3}'"$DJS"'${color1}'/ | sed s/^/'${alignr}'/}
+${color1}${alignr}${lua_parse conky_calendar}
+#${voffset -8}
+${color2} Last Boot:${color1} ${execpi 3600 uptime -s | awk '{print $2" - "substr($1,6,2)"/"substr($1,9,2)"/"substr($1,3,2)}'}
+${color2}    Uptime:${color1} ${uptime} ${color2} ${goto 118} ConkyUps:${color1} ${updates}
+${color2} Frequency:${color1} ${freq_g} GHz ${color2}${goto 118} ${execi 3600 cat /proc/cpuinfo | grep 'model name' | sed -e 's/model name.*: //'| uniq | cut -c 1-20}
+${color2}  Governor: ${color1}${execi 60 cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor}
+#   ${color2}      Batt: ${color1}${battery_short} ${alignr}${color4}${battery_bar 8,102 BAT0}
+# ---------------------------
+# ----- CPU % USE -----------
+# ---------------------------
+${color3}CPU / Fans / Temps ${hr}
+# ... label/(no spaces) unit/(type nil if blank) measure/(conky_parse) max warn alarm xr yc ...
+${lua conky_gauge CPU % ${cpu cpu0} 100 75 0 25 195 }
+${lua conky_gauge CPU1 % ${cpu cpu1} 100 75 0 70 195 }
+${lua conky_gauge CPU2 % ${cpu cpu2} 100 75 0 115 195 }
+#${lua conky_gauge CPU3 % ${cpu cpu3} 100 75 0 160 195 }
+#${lua conky_gauge CPU4 % ${cpu cpu4} 100 75 0 205 195 }
+${voffset -35}
+#   ----- use below for bargraph/history of cpu use -----
+#   ${color5}${cpugraph cpu0 10,37 5300D6 0072D6}${goto 50}${color5}${cpugraph cpu1 10,37 5300D6 0072D6}${goto 95}${color5}${cpugraph cpu2 10,37 5300D6 0072D6}${goto 140}${color5}${cpugraph cpu3 10,37 5300D6 0072D6}${goto 185}${color5}${cpugraph cpu2 10,37 5300D6 0072D6}
+#   -----------------------------------------------------
+# ---------------------------
+# ----- CPU TEMPS -----------
+# ---------------------------
+# ... label/(no spaces) unit/(type nil if blank) measure/(conky_parse) max warn alarm xr yc ...
+${lua conky_gauge CPU °F ${hwmon 1 temp 1} 150 120 0 25 226 }
+${lua conky_gauge CPU1 °F ${hwmon 1 temp 2} 150 120 0 70 226 }
+${lua conky_gauge CPU2 °F ${hwmon 1 temp 3} 150 120 0 115 226 }
+#${lua conky_gauge CPU3 °F ${hwmon 1 temp 4} 150 120 0 160 226 }
+#${lua conky_gauge CPU4 °F ${hwmon 1 temp 5} 150 120 0 205 226 }
+#   ============================================================
+#   ========== use below for 'normal' text-based info ==========
+#   --- use a -l (lowercase L) at end to display logarithmic scale graph (to see small numbers) ---
+#   ${if_match ${cpu cpu0}<70}${color2}  CPU:${color1}${else}${color6}  CPU:$endif} ${cpu cpu0}%  ${goto 60}${if_match ${hwmon 1 temp 1}<=115}${color2} Temp:${color1}${else}${color6} Temp:$endif}${hwmon 1 temp 1}°F ${alignr}${color5}${cpugraph cpu0 10,102 5300D6 0072D6}
+#   ${if_match ${cpu cpu1}<70}${color2} CPU1:${color1}${else}${color6} CPU1:$endif} ${cpu cpu1}%  ${goto 60}${if_match ${hwmon 1 temp 2}<=115}${color2}      ${color1}${else}${color6}      $endif}${hwmon 1 temp 2}°F ${alignr}${color5}${cpugraph cpu1 10,102 5300D6 0072D6}
+#   ${if_match ${cpu cpu2}<70}${color2} CPU2:${color1}${else}${color6} CPU2:$endif} ${cpu cpu2}%  ${goto 60}${if_match ${hwmon 1 temp 3}<=115}${color2}      ${color1}${else}${color6}      $endif}${hwmon 1 temp 3}°F ${alignr}${color5}${cpugraph cpu2 10,102 5300D6 0072D6}
+#   ${if_match ${cpu cpu3}<70}${color2} CPU3:${color1}${else}${color6} CPU3:$endif} ${cpu cpu3}%  ${goto 60}${if_match ${hwmon 1 temp 4}<=115}${color2}      ${color1}${else}${color6}      $endif}${hwmon 1 temp 4}°F ${alignr}${color5}${cpugraph cpu3 10,102 5300D6 0072D6}
+#   ${if_match ${cpu cpu4}<70}${color2} CPU4:${color1}${else}${color6} CPU4:$endif} ${cpu cpu4}%  ${goto 60}${if_match ${hwmon 1 temp 5}<=115}${color2}      ${color1}${else}${color6}      $endif}${hwmon 1 temp 5}°F ${alignr}${color5}${cpugraph cpu4 10,102 5300D6 0072D6}
+#   ============================================================
+#   ============================================================
+# ---------------------------
+# ----- FANS / TEMPS --------
+# ---------------------------
+# --- sensors vs. hwmon - sensors provides tenths -- but hwmon is more efficient ---
+# --- to match things up, check sensors (-f) against /sys/class/hwmon/ (look at sensors heading vs. hwmon#/name -----
+# ... label/(no spaces) unit/(type nil if blank) measure/(conky_parse) max warn alarm xr yc ...
+#${lua conky_gauge CPU nil ${hwmon 2 fan 2} 1800 1350 10 25 257 }
+#${lua conky_gauge Case nil ${hwmon 2 fan 3} 1800 1350 10 70 257 }
+#${lua conky_gauge GPU % ${execi 5 nvidia-settings -q GPUCurrentFanSpeed | grep Attribute | awk '{print $4}' | sed 's/.$//'} 100 80 10 115 257 }
+#${lua conky_gauge GPU °F ${execi 1 nvidia-settings -q GPUCoreTemp | awk '{if (NR==2) {printf "%.0f",($4*9)/5+32}}'} 200 150 0 160 257 }
+#   ..... without nvidia ..... ${lua conky_gauge GPU °F ${hwmon 1 temp 1} 200 150 0 160 257 }
+${lua conky_gauge Mobo °F ${hwmon 2 temp 2} 160 115 0 205 257 }
+${lua conky_gauge T23 °F ${hwmon 2 temp 3} 160 115 0 25 288 }
+${lua conky_gauge T01 °F ${hwmon 0 temp 1} 160 115 0 70 288 }
+${lua conky_gauge T02 °F ${hwmon 0 temp 2} 160 115 0 115 288 }
+#   --- /dev/sda1: Hitachi HDS721010CLA630: 31-42°C - 88-108°F
+${lua conky_gauge SDA °F ${execi 10 hddtemp --u=F /dev/sda | cut -f 4 -d ' ' | sed 's/..$//'} 150 110 0 160 288 }
+#   --- /dev/sdb1: ST1000DM003-9YN162: 33°C - 91°F
+${lua conky_gauge SDB °F ${execi 10 hddtemp --u=F /dev/sdb | cut -f 3 -d ' ' | sed 's/..$//'} 150 110 0 205 288 }
+#   ============================================================
+#   ========== use below for 'normal' text-based info ==========
+#   ${color2} Fan1: ${color1}${hwmon 2 fan 2} ${color2}RPM ${goto 118}${color2} Fan2: ${color1}${hwmon 2 fan 3} ${color2}RPM
+#   ${color2} Mobo: ${color1}${hwmon 2 temp 2}°F
+#   ${if_match ${hwmon 2 temp 3}<=115}${color2}  GPU: ${color1}${else}${color6}  GPU: $endif}${hwmon 2 temp 3}°F  ${color2}NVIDIA GeForce GT 620: ${color1}${execi 1 nvidia-settings -q GPUCoreTemp | awk '{if (NR==2) {print ($4*9)/5+32}}'}°F
+#   ${if_match ${hwmon 1 temp 1}<=120}${color2}  GPU: ${color1}${else}${color6}  GPU: $endif}${hwmon 1 temp 1}°F  ${color2}Nouveau - NVIDIA nForce 630M
+#   --- /dev/sda1: Hitachi HDS721010CLA630: 31-42°C - 88-108°F
+#   ${color2} Sda1: ${color1}${execi 10 hddtemp --u=F /dev/sda | cut -f 4 -d ' '}  ${color2}Hitachi (88°F)
+#   --- /dev/sdb1: ST1000DM003-9YN162: 33°C - 91°F
+#   ${color2} Sdb1: ${color1}${execi 10 hddtemp --u=F /dev/sdb | cut -f 3 -d ' '}  ${color2}Seagate (91°F)
+#   ============================================================
+#   ============================================================
+# ---------------------------
+# ----- NETWORK -------------
+# ---------------------------
+#${voffset -62}
+${voffset +20}
+${color3}Network ${hr 1}
+${color2}  WAN: ${color1}${execi 3600 ~/Scripts/get_ext_ip} ${goto 140}${color2} Connections: ${color1}${tcp_portmon 1 65535 count}
+#${color2}  LAN: ${color1}${addr enp4s0}
+#${color2} WiFi: ${color1}${addr wlp3s0} ${goto 140}${color2} Signal: ${color1}${wireless_link_qual wlp3s0}%
+${color2}  LAN: ${color1}${addr enp7s0}
+${color2} WiFi: ${color1}${addr wls3} ${goto 140}${color2} Signal: ${color1}${wireless_link_qual wls3}%
+# ---------------------------
+# ----- WIRED ---------------
+# ---------------------------
+# ... label/(no spaces) unit/(type nil if blank) measure/(conky_parse) max warn alarm xr yc ...
+#${lua conky_gauge DSpd nil ${lua_parse conky_mbps ${downspeedf enp4s0}} 90 75 0 25 360 }
+#${lua conky_gauge DMax nil ${lua_parse conky_maxdwn1 ${downspeedf enp4s0}} 90 90 0 70 360 }
+${lua conky_gauge DSpd nil ${lua_parse conky_mbps ${downspeedf ens2}} 90 75 0 25 360 }
+${lua conky_gauge DMax nil ${lua_parse conky_maxdwn1 ${downspeedf ens2}} 90 90 0 70 360 }
+${color3}${alignc}__Wired__
+${color1}${alignc}Mbps
+#${lua conky_gauge USpd nil ${lua_parse conky_mbps ${upspeedf enp4s0}} 10 7 0 160 360 }
+#${lua conky_gauge UMax nil ${lua_parse conky_maxup1 ${upspeedf enp4s0}} 16 16 0 205 360 }
+${lua conky_gauge USpd nil ${lua_parse conky_mbps ${upspeedf ens2}} 10 7 0 160 360 }
+${lua conky_gauge UMax nil ${lua_parse conky_maxup1 ${upspeedf ens2}} 16 16 0 205 360 }
+${voffset -35}
+${color2} DownTot: ${color1}${totaldown ens2} ${goto 140}${color2} UpTot: ${color1}${totalup ens2}
+#${color5} ${downspeedgraph enp4s0 10,75 5300D6 0072D6 -l} ${goto 140} ${upspeedgraph ens2 10,75 5300D6 0072D6 -l}
+${color5} ${downspeedgraph ens2 10,75 5300D6 0072D6 -l} ${goto 140} ${upspeedgraph ens2 10,75 5300D6 0072D6 -l}
+#   ============================================================
+#   ========== use below for 'normal' text-based info ==========
+#   ${color3}Wired ${hr 1}
+#   ${color2} DSpd: ${color1}${lua_parse conky_mbps ${downspeedf enp4s0}}${goto 118}${color2} USpd: ${color1}${lua_parse conky_mbps ${upspeedf enp4s0}}${alignr}${color2}Mbps
+#   ${color5} ${downspeedgraph enp4s0 10,102 5300D6 0072D6 -l} ${alignr}${upspeedgraph enp4s0 10,102 5300D6 0072D6 -l}
+#   ${color2} DMax: ${color1}${lua_parse conky_maxdwn1 ${downspeedf enp4s0}} ${goto 118}${color2} UMax: ${color1}${lua_parse conky_maxup1 ${upspeedf enp4s0}}${alignr}${color2}Mbps
+#   ${color2} DTot: ${color1}${totaldown enp4s0} ${goto 118}${color2} UTot: ${color1}${totalup enp4s0}
+#   ============================================================
+#   ============================================================
+# ---------------------------
+# ----- WIFI ----------------
+# ---------------------------
+# ... label/(no spaces) unit/(type nil if blank) measure/(conky_parse) max warn alarm xr yc ...
+#${lua conky_gauge DSpd nil ${lua_parse conky_mbps ${downspeedf ens2}} 90 75 0 25 420 }
+#${lua conky_gauge DMax nil ${lua_parse conky_maxdwn2 ${downspeedf wlp3s0}} 90 90 0 70 420 }
+${lua conky_gauge DSpd nil ${lua_parse conky_mbps ${downspeedf wls3}} 90 75 0 25 420 }
+${lua conky_gauge DMax nil ${lua_parse conky_maxdwn2 ${downspeedf wls3}} 90 90 0 70 420 }
+${voffset -5}
+${color3}${alignc}__Wi-Fi__
+${color1}${alignc}Mbps
+#${lua conky_gauge USpd nil ${lua_parse conky_mbps ${upspeedf ens2}} 10 7 0 160 420 }
+#${lua conky_gauge UMax nil ${lua_parse conky_maxup2 ${upspeedf ens2}} 16 16 0 205 420 }
+${lua conky_gauge USpd nil ${lua_parse conky_mbps ${upspeedf wls3}} 10 7 0 160 420 }
+${lua conky_gauge UMax nil ${lua_parse conky_maxup2 ${upspeedf wls3}} 16 16 0 205 420 }
+${voffset -35}
+#${color2} DownTot: ${color1}${totaldown ens2} ${goto 140}${color2} UpTot: ${color1}${totalup ens2}
+#${color5} ${downspeedgraph ens2 10,75 5300D6 0072D6 -l} ${goto 140} ${upspeedgraph ens2 10,75 5300D6 0072D6 -l}
+${color2} DownTot: ${color1}${totaldown wls3} ${goto 140}${color2} UpTot: ${color1}${totalup wls3}
+${color5} ${downspeedgraph wls3 10,75 5300D6 0072D6 -l} ${goto 140} ${upspeedgraph wls30 10,75 5300D6 0072D6 -l}
+#   ============================================================
+#   ========== use below for 'normal' text-based info ==========
+#   ${color3}Wi-Fi ${hr 1}
+#   ${color2} DSpd: ${color1}${lua_parse conky_mbps ${downspeedf wlp3s0}}${goto 118}${color2} USpd: ${color1}${lua_parse conky_mbps ${upspeedf wlp3s0}}${alignr}${color2}Mbps
+#   ${color5} ${downspeedgraph wlp3s0 10,102 5300D6 0072D6 -l} ${alignr}${upspeedgraph wlp3s0 10,102 5300D6 0072D6 -l}
+#   ${color2} DMax: ${color1}${lua_parse conky_maxdwn2 ${downspeedf wlp3s0}} ${goto 118}${color2} UMax: ${color1}${lua_parse conky_maxup2 ${upspeedf wlp3s0}}${alignr}${color2}Mbps
+#   ${color2} DTot: ${color1}${totaldown wlp3s0}  ${goto 118}${color2} UTot: ${color1}${totalup wlp3s0}
+#   ============================================================
+#   ============================================================
+# ---------------------------
+# ----- PROCESSES -----------
+# ---------------------------
+${voffset -1}
+${color3}Processes ${hr 1}
+${color2} Total:${color1} $processes ${color2} ${goto 140} Running:${color1} $running_processes
+${color2}     ..PID...CPU%...MEM....${goto 140} Name...........
+${color1}     ${top pid 1} ${if_match ${top cpu 1}<45}${color3}${else}${color6}$endif}${top cpu 1}   ${color1}${top mem_res 1}  ${goto 140} ${if_match ${top cpu 1}<45}${color2}${else}${color6}$endif}${top name 1}
+${color2}     ${color1}${top pid 2} ${top cpu 2}   ${top mem_res 2}  ${goto 140} ${color2}${top name 2}
+${color2}     ${color1}${top pid 3} ${top cpu 3}   ${top mem_res 3}  ${goto 140} ${color2}${top name 3}
+${color2}     ${color1}${top pid 4} ${top cpu 4}   ${top mem_res 4}  ${goto 140} ${color2}${top name 4}
+${voffset -5}${color2}     .....................................
+${color2}     ${color1}${top_mem pid 1} ${top_mem cpu 1}   ${color3}${top_mem mem_res 1}  ${goto 140} ${color2}${top_mem name 1}
+${color2}     ${color1}${top_mem pid 2} ${top_mem cpu 2}   ${top_mem mem_res 2}  ${goto 140} ${color2}${top_mem name 2}
+${color2}     ${color1}${top_mem pid 3} ${top_mem cpu 3}   ${top_mem mem_res 3}  ${goto 140} ${color2}${top_mem name 3}
+${color2}     ${color1}${top_mem pid 4} ${top_mem cpu 4}   ${top_mem mem_res 4}  ${goto 140} ${color2}${top_mem name 4}
+# ---------------------------
+# ----- FILE SYSTEM ---------
+# ---------------------------
+${color3}Filesystem ${hr 1}
+${color2}   RAM:${color1} ${mem} / ${memmax} ${alignr}${color4}${membar 8,102}
+${color2}     /: ${color1}${fs_used /} / ${fs_size /} ${alignr}${color4}${fs_bar 8,102}
+${color2} /home: ${color1}${fs_used /home} / ${fs_size /home} ${alignr}${color4}${fs_bar 8,102}
+${color2}  Swap:${color1} ${swap} / ${swapmax} ${alignr}${color4}${swapbar 8,102}
+${color2} DskIO: ${color1}${diskio}  ${alignr}${color5}${diskiograph 8,102 5300D6 0072D6}
+# ---------------------------
+# ----- Weather -------------
+# ---------------------------
+# --- get data --- note Location id (USNH0119) and unit (s/m) --- dayf=numdays to forecast (1,2,etc) -----------------------
+#${execi 1200 curl -s "http://wxdata.weather.com/wxdata/weather/local/USNH0119?cc=*&unit=s&dayf=2" -o ~/Scripts/lua/weather.xml}
+${execi 1200 curl -s "http://wxdata.weather.com/wxdata/weather/local/USNH0119?cc=*&unit=s&dayf=2" -o ~/Scripts/lua/weather.xml}
+${voffset -10}${color3}Weather ${hr 1}
+${color2}  Last:${color1} ${execi 60 grep -oPm1 "(?<=<lsup>)[^<]+" ~/Scripts/lua/weather.xml}
+${goto 45}${execi 60 grep -oPm1 "(?<=<t>)[^<]+" ~/Scripts/lua/weather.xml}
+${color2}  Temp:${color1} ${execi 60 grep -oPm1 "(?<=<tmp>)[^<]+" ~/Scripts/lua/weather.xml}°F \
+${goto 117}${color2}FeelsLike:${color1} ${execi 60 grep -oPm1 "(?<=<flik>)[^<]+" ~/Scripts/lua/weather.xml}°F
+${color2}  Wind:${color1} ${execi 60 grep -oPm1 "(?<=<s>)[^<]+" ~/Scripts/lua/weather.xml} mph ${execi 60 grep -oPm2 "(?<=<t>)[^<]+" ~/Scripts/lua/weather.xml | sed -n '2p'} \
+${goto 117}${color2} Humidity:${color1} ${execi 60 grep -oPm1 "(?<=<hmid>)[^<]+" ~/Scripts/lua/weather.xml}%
+${color2}   H/L:${color1} ${execi 60 grep -oPm1 "(?<=<hi>)[^<]+" ~/Scripts/lua/weather.xml}°/${execi 60 grep -oPm1 "(?<=<low>)[^<]+" ~/Scripts/lua/weather.xml}°F \
+${goto 117}${color2} Pressure:${color1} ${execi 60 grep -oPm1 "(?<=<r>)[^<]+" ~/Scripts/lua/weather.xml} ${execi 60 grep -oPm1 "(?<=<d>)[^<]+" ~/Scripts/lua/weather.xml}
+${color2} Sunup:${color1} ${execi 60 grep -oPm1 "(?<=<sunr>)[^<]+" ~/Scripts/lua/weather.xml} \
+${goto 117}${color2}  Sundown:${color1} ${execi 60 grep -oPm1 "(?<=<suns>)[^<]+" ~/Scripts/lua/weather.xml}
+${color2} Tomor: ${color1}${execi 60 grep -oPm2 "(?<=<hi>)[^<]+" ~/Scripts/lua/weather.xml | sed -n '2p'}°/${execi 60 grep -oPm2 "(?<=<low>)[^<]+" ~/Scripts/lua/weather.xml | sed -n '2p'}°F
+${goto 45}${execi 60 grep -A 2 -Pm2 '(?<=<part p="d")[^<]+' ~/Scripts/lua/weather.xml | sed -n '7p' | grep -oPm2 '(?<=<t>)[^<]+'} \
+wind ${execi 60 grep -oPm4 "(?<=<s>)[^<]+" ~/Scripts/lua/weather.xml | sed -n '4p'} mph \
+${execi 60 grep -A 8 -Pm2 '(?<=<part p="d")[^<]+' ~/Scripts/lua/weather.xml | sed -n '18p' | grep -oPm1 '(?<=<t>)[^<]+'}
+# ---------------------------
+# ----- Stocks --------------
+# ---------------------------
+${color3}Stocks ${hr 1}
+# --- params: ticker #shares price paid ---
+#${color2}${lua_parse conky_stock SKLN 190 5.35}
+#${color2}${lua_parse conky_stock SFOR 190000 .001}
+#${color2}${lua_parse conky_stock CNBX 2500 .076}
+#${color3}${hr}
+# ---------------------------
+# --- TEST STUFF ------------
+# ---------------------------
+${color2}Test area...
+${lua conky_test}
+${color3}${hr}
+]]

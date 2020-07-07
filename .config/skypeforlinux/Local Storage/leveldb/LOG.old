@@ -1,0 +1,16 @@
+2020/04/11-20:38:53.171 2e7b Reusing MANIFEST leveldb/MANIFEST-000001
+2020/04/11-20:38:53.172 2e7b Recovering log #13
+2020/04/11-20:38:53.223 2e7b Level-0 table #15: started
+2020/04/11-20:38:53.293 2e7b Level-0 table #15: 47784 bytes OK
+2020/04/11-20:38:53.349 2e7b Delete type=0 #13
+2020/04/11-20:38:53.350 2e76 Compacting 4@0 + 0@1 files
+2020/04/11-20:38:53.539 2e76 Generated table #17@0: 10 keys, 47954 bytes
+2020/04/11-20:38:53.539 2e76 Compacted 4@0 + 0@1 files => 47954 bytes
+2020/04/11-20:38:53.585 2e76 compacted to: files[ 0 1 1 0 0 0 0 ]
+2020/04/11-20:38:53.586 2e76 Delete type=2 #7
+2020/04/11-20:38:53.586 2e76 Delete type=2 #15
+2020/04/11-20:38:53.586 2e76 Delete type=2 #12
+2020/04/11-20:38:53.586 2e76 Delete type=2 #10
+2020/04/11-20:39:58.705 2e7a Level-0 table #19: started
+2020/04/11-20:39:58.817 2e7a Level-0 table #19: 58218 bytes OK
+2020/04/11-20:39:58.913 2e7a Delete type=0 #16
